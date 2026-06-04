@@ -38,9 +38,14 @@ jobs:
           EOF
           make defconfig
 
+      - name: Build tools and toolchain
+        run: |
+          make tools/install -j$(nproc) V=s
+          make toolchain/install -j$(nproc) V=s
+
       - name: Build uqmi only
         run: |
-          make package/network/utils/uqmi/compile V=s
+          make package/network/utils/uqmi/compile -j$(nproc) V=s
 
       - name: Collect ipk
         run: |
