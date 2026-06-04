@@ -50,10 +50,16 @@ jobs:
       - name: Collect ipk
         run: |
           mkdir -p artifact
-          find bin/packages -name 'uqmi_*.ipk' -exec cp -v {} artifact/ \;
-          find bin/packages -name 'libubox*.ipk' -exec cp -v {} artifact/ \; || true
-          find bin/packages -name 'libblobmsg-json*.ipk' -exec cp -v {} artifact/ \; || true
-          find bin/packages -name 'libjson-c*.ipk' -exec cp -v {} artifact/ \; || true
+
+          find bin -name 'uqmi_*.ipk' -exec cp -v {} artifact/ \;
+          find bin -name 'libubox*.ipk' -exec cp -v {} artifact/ \; || true
+          find bin -name 'libblobmsg-json*.ipk' -exec cp -v {} artifact/ \; || true
+          find bin -name 'libjson-c*.ipk' -exec cp -v {} artifact/ \; || true
+
+          echo "===== artifact ====="
+          ls -lh artifact/
+
+          test -n "$(find artifact -name 'uqmi_*.ipk' -print -quit)"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
